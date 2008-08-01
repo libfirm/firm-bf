@@ -26,9 +26,6 @@ static void initialize_firm(void)
 	memset(&params, 0, sizeof(params));
 	params.size = sizeof(params);
 
-	const backend_params *be_params = be_init();
-	params.arch_op_settings = be_params->arch_op_settings;
-
 	init_firm(&params);
 }
 
@@ -194,7 +191,7 @@ static void output_byte(void)
 	static ir_entity *entity  = NULL;
 	if(putchar == NULL) {
 		entity  = create_putchar_entity();
-		putchar = new_SymConst((union symconst_symbol) entity,
+		putchar = new_SymConst(mode_P, (union symconst_symbol) entity,
 		                       symconst_addr_ent);
 	}
 
@@ -221,7 +218,7 @@ static void input_byte(void)
 	static ir_entity *entity  = NULL;
 	if(getchar == NULL) {
 		entity  = create_getchar_entity();
-		getchar = new_SymConst((union symconst_symbol) entity,
+		getchar = new_SymConst(mode_P, (union symconst_symbol) entity,
 		                       symconst_addr_ent);
 	}
 
@@ -343,7 +340,7 @@ int main(int argc, char **argv)
 	 * It is initially set to the beginning of the array
 	 */
 	ir_entity *field       = create_field();
-	ir_node   *field_start = new_SymConst((union symconst_symbol) field,
+	ir_node   *field_start = new_SymConst(mode_P, (union symconst_symbol) field,
 	                                      symconst_addr_ent);
 	set_value(VARIABLE_NUM_POINTER, field_start);
 
@@ -371,11 +368,11 @@ int main(int argc, char **argv)
 
 	irg_vrfy(current_ir_graph);
 
-	//optimize_reassociation(current_ir_graph);
+	optimize_reassociation(current_ir_graph);
 	optimize_load_store(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
 	place_code(current_ir_graph);
-	//optimize_reassociation(current_ir_graph);
+	optimize_reassociation(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
 	opt_cond_eval(current_ir_graph);
 	optimize_graph_df(current_ir_graph);

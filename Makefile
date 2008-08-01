@@ -1,11 +1,11 @@
 GOAL = bf_firm
 
-FIRM_CFLAGS = `pkg-config --cflags libfirm`
-FIRM_LIBS = `pkg-config --libs libfirm`
-#FIRM_HOME = $(HOME)/projects/firm/
-#FIRM_BUILD = $(FIRM_HOME)/build/i686-pc-linux-gnu/debug/
-#FIRM_CFLAGS = -I$(FIRM_HOME)/libfirm/include -I$(FIRM_HOME)/obstack -I$(FIRM_HOME)/libcore
-#FIRM_LIBS = -L$(FIRM_BUILD) -lfirm -llpp -lcore -lm -ldl
+#FIRM_CFLAGS = `pkg-config --cflags libfirm`
+#FIRM_LIBS = `pkg-config --libs libfirm`
+FIRM_HOME = $(HOME)/projects/firm/
+FIRM_BUILD = $(FIRM_HOME)/build/i686-pc-linux-gnu/debug/
+FIRM_CFLAGS = -I$(FIRM_HOME)/libfirm/include -I$(FIRM_HOME)/obstack -I$(FIRM_HOME)/libcore -I$(FIRM_HOME)
+FIRM_LIBS = -L$(FIRM_BUILD) -lfirm -llpp -lcore -lm -ldl -lz
 
 CFLAGS += -Wall -W -Werror -O0 -g3 -std=c99 -pg
 CFLAGS += -I .
