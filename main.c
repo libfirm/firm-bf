@@ -124,7 +124,7 @@ static void increase_pointer(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
 	tarval  *value_one = new_tarval_from_long(1, mode_Is);
-	ir_node *one       = new_Const(mode_Is, value_one);
+	ir_node *one       = new_Const(value_one);
 	
 	ir_node *add = new_Add(pointer_value, one, mode_P_data);
 
@@ -136,7 +136,7 @@ static void decrease_pointer(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
 	tarval  *value_one = new_tarval_from_long(1, mode_Is);
-	ir_node *one       = new_Const(mode_Is, value_one);
+	ir_node *one       = new_Const(value_one);
 	
 	ir_node *sub = new_Sub(pointer_value, one, mode_P_data);
 
@@ -154,7 +154,7 @@ static void increment_byte(void)
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
 
 	tarval  *value_one = new_tarval_from_long(1, mode_Bu);
-	ir_node *one       = new_Const(mode_Bu, value_one);
+	ir_node *one       = new_Const(value_one);
 
 	ir_node *add       = new_Add(load_result, one, mode_Bu);
 
@@ -175,7 +175,7 @@ static void decrement_byte(void)
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
 
 	tarval  *value_one = new_tarval_from_long(1, mode_Bu);
-	ir_node *one       = new_Const(mode_Bu, value_one);
+	ir_node *one       = new_Const(value_one);
 
 	ir_node *add       = new_Sub(load_result, one, mode_Bu);
 
@@ -275,7 +275,7 @@ static void parse_loop(void)
 	set_store(load_mem);
 
 	tarval  *value_zero = new_tarval_from_long(0, mode_Bu);
-	ir_node *zero       = new_Const(mode_Bu, value_zero);
+	ir_node *zero       = new_Const(value_zero);
 
 	ir_node *cmp        = new_Cmp(load_result, zero);
 	ir_node *equal      = new_Proj(cmp, mode_b, pn_Cmp_Eq);
@@ -323,7 +323,7 @@ static void parse(void)
 
 int main(int argc, char **argv)
 {
-	if(argc <= 1) {
+	if(argc != 2) {
 		fprintf(stderr, "Usage: %s source.bf\n", argv[0]);
 		return 1;
 	}
