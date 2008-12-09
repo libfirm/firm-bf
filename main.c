@@ -20,13 +20,12 @@ static FILE *input;
 static void initialize_firm(void)
 {
 	be_opt_register();
-	firm_init_options(NULL, 0, NULL);
 
 	firm_parameter_t params;
 	memset(&params, 0, sizeof(params));
 	params.size = sizeof(params);
 
-	init_firm(&params);
+	ir_init(&params);
 }
 
 /**
