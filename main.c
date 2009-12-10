@@ -147,7 +147,7 @@ static void increment_byte(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
 	ir_node *mem  = get_store();
-	ir_node *load = new_Load(mem, pointer_value, mode_Bu);
+	ir_node *load = new_Load(mem, pointer_value, mode_Bu, cons_none);
 
 	ir_node *load_result = new_Proj(load, mode_Bu, pn_Load_res);
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
@@ -157,7 +157,7 @@ static void increment_byte(void)
 
 	ir_node *add       = new_Add(load_result, one, mode_Bu);
 
-	ir_node *store     = new_Store(load_mem, pointer_value, add);
+	ir_node *store     = new_Store(load_mem, pointer_value, add, cons_none);
 	ir_node *store_mem = new_Proj(store, mode_M, pn_Store_M);
 
 	set_store(store_mem);
@@ -168,7 +168,7 @@ static void decrement_byte(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
 	ir_node *mem  = get_store();
-	ir_node *load = new_Load(mem, pointer_value, mode_Bu);
+	ir_node *load = new_Load(mem, pointer_value, mode_Bu, cons_none);
 
 	ir_node *load_result = new_Proj(load, mode_Bu, pn_Load_res);
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
@@ -178,7 +178,7 @@ static void decrement_byte(void)
 
 	ir_node *add       = new_Sub(load_result, one, mode_Bu);
 
-	ir_node *store     = new_Store(load_mem, pointer_value, add);
+	ir_node *store     = new_Store(load_mem, pointer_value, add, cons_none);
 	ir_node *store_mem = new_Proj(store, mode_M, pn_Store_M);
 
 	set_store(store_mem);
@@ -197,7 +197,7 @@ static void output_byte(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 	ir_node *mem           = get_store();
 
-	ir_node *load        = new_Load(mem, pointer_value, mode_Bu);
+	ir_node *load        = new_Load(mem, pointer_value, mode_Bu, cons_none);
 	ir_node *load_result = new_Proj(load, mode_Bu, pn_Load_res);
 
 	ir_node *convert     = new_Conv(load_result, mode_Is);
@@ -234,7 +234,7 @@ static void input_byte(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 	ir_node *convert       = new_Conv(call_result, mode_Is);
 
-	ir_node *store     = new_Store(call_mem, pointer_value, convert);
+	ir_node *store     = new_Store(call_mem, pointer_value, convert, cons_none);
 	ir_node *store_mem = new_Proj(store, mode_M, pn_Store_M);
 
 	set_store(store_mem);
@@ -266,7 +266,7 @@ static void parse_loop(void)
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
 	ir_node *mem  = get_store();
-	ir_node *load = new_Load(mem, pointer_value, mode_Bu);
+	ir_node *load = new_Load(mem, pointer_value, mode_Bu, cons_none);
 
 	ir_node *load_result = new_Proj(load, mode_Bu, pn_Load_res);
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
@@ -373,7 +373,7 @@ int main(int argc, char **argv)
 	place_code(current_ir_graph);
 	optimize_reassociation(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
-	opt_cond_eval(current_ir_graph);
+	opt_jumpthreading(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
 
 	FILE *out = fopen("a.s", "w");
