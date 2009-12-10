@@ -35,9 +35,13 @@ static ir_graph *create_graph(void)
 {
 	/* the identifier for the "main" function */
 	/* create a new method type for the main function, no parameters,
-	 * no results */
+	 * one result */
 	ident   *type_id     = new_id_from_str("main_method_type");
-	ir_type *method_type = new_type_method(type_id, 0, 0);
+	ir_type *method_type = new_type_method(type_id, 0, 1);
+
+	ident   *int_id   = new_id_from_str("type_int");
+	ir_type *type_int = new_type_primitive(int_id, mode_Is);
+	set_method_res_type(method_type, 0, type_int);
 
 	/* create an entity for the method in the global namespace */
 	ident     *id          = new_id_from_str("main");
@@ -243,7 +247,9 @@ static void input_byte(void)
 static void create_return(void)
 {
 	ir_node *mem         = get_store();
-	ir_node *return_node = new_Return(mem, 0, NULL);
+	tarval  *value_zero  = new_tarval_from_long(0, mode_Is);
+	ir_node *zero        = new_Const(value_zero);
+	ir_node *return_node = new_Return(mem, 1, &zero);
 
 	ir_node *end_block   = get_cur_end_block();
 	add_immBlock_pred(end_block, return_node);
