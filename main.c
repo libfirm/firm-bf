@@ -230,7 +230,7 @@ static void input_byte(void)
 	ir_type *type = get_entity_type(entity);
 	ir_node *call = new_Call(mem, getchar, 0, NULL, type);
 
-	ir_node *call_mem = new_Proj(call, mode_M, pn_Call_M_regular);
+	ir_node *call_mem = new_Proj(call, mode_M, pn_Call_M);
 
 	ir_node *call_results = new_Proj(call, mode_T, pn_Call_T_result);
 	ir_node *call_result  = new_Proj(call_results, mode_Is, 0);
