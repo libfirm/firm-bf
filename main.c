@@ -36,11 +36,9 @@ static ir_graph *create_graph(void)
 	/* the identifier for the "main" function */
 	/* create a new method type for the main function, no parameters,
 	 * one result */
-	ident   *type_id     = new_id_from_str("main_method_type");
-	ir_type *method_type = new_type_method(type_id, 0, 1);
+	ir_type *method_type = new_type_method(0, 1);
 
-	ident   *int_id   = new_id_from_str("type_int");
-	ir_type *type_int = new_type_primitive(int_id, mode_Is);
+	ir_type *type_int = new_type_primitive(mode_Is);
 	set_method_res_type(method_type, 0, type_int);
 
 	/* create an entity for the method in the global namespace */
@@ -53,7 +51,6 @@ static ir_graph *create_graph(void)
 
 	/* the function should be visible to the linker, and use symbol "main"
 	 * in linker */
-	set_entity_visibility(entity, visibility_external_visible);
 	set_entity_ld_ident(entity, id);
 
 	return irg;
@@ -64,11 +61,12 @@ static ir_graph *create_graph(void)
  */
 static ir_entity *create_field(void)
 {
-	ident   *byte_id   = new_id_from_str("type_byte");
-	ir_type *byte_type = new_type_primitive(byte_id, mode_Bu);
+	ir_type *byte_type = new_type_primitive(mode_Bu);
 
-	ident   *array_type_id = new_id_from_str("type_array");
-	ir_type *array_type    = new_type_array(array_type_id, 1, byte_type);
+	/* create a 1-dimensional array of type byte_type. Then set bounds to
+	 * [0-DATA_SIZE[
+	 */
+	ir_type *array_type    = new_type_array(1, byte_type);
 	set_array_bounds_int(array_type, 0, 0, DATA_SIZE);
 
 	set_type_size_bytes(array_type, DATA_SIZE);
@@ -78,18 +76,17 @@ static ir_entity *create_field(void)
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, array_type);
 
-	set_entity_visibility(entity, visibility_local);
+	/* only the current compilation unit needs to see the data array */
+	set_entity_visibility(entity, ir_visibility_local);
 
 	return entity;
 }
 
 static ir_entity *create_putchar_entity(void)
 {
-	ident   *int_id   = new_id_from_str("type_int");
-	ir_type *type_int = new_type_primitive(int_id, mode_Is);
+	ir_type *type_int = new_type_primitive(mode_Is);
 
-	ident   *type_id     = new_id_from_str("type_putchar");
-	ir_type *method_type = new_type_method(type_id, 1, 1);
+	ir_type *method_type = new_type_method(1, 1);
 	
 	set_method_res_type(method_type, 0, type_int);
 	set_method_param_type(method_type, 0, type_int);
@@ -97,7 +94,7 @@ static ir_entity *create_putchar_entity(void)
 	ident     *id          = new_id_from_str("putchar");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
-	set_entity_visibility(entity, visibility_external_allocated);
+	set_entity_visibility(entity, ir_visibility_external);
 	set_entity_ld_ident(entity, id);
 
 	return entity;
@@ -105,18 +102,16 @@ static ir_entity *create_putchar_entity(void)
 
 static ir_entity *create_getchar_entity(void)
 {
-	ident   *int_id   = new_id_from_str("type_int");
-	ir_type *type_int = new_type_primitive(int_id, mode_Is);
+	ir_type *type_int = new_type_primitive(mode_Is);
 
-	ident   *type_id     = new_id_from_str("type_getchar");
-	ir_type *method_type = new_type_method(type_id, 0, 1);
+	ir_type *method_type = new_type_method(0, 1);
 	
 	set_method_res_type(method_type, 0, type_int);
 
 	ident     *id          = new_id_from_str("getchar");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
-	set_entity_visibility(entity, visibility_external_allocated);
+	set_entity_visibility(entity, ir_visibility_external);
 	set_entity_ld_ident(entity, id);
 
 	return entity;
