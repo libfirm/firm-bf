@@ -246,7 +246,7 @@ static void create_return(void)
 	ir_node *zero        = new_Const(value_zero);
 	ir_node *return_node = new_Return(mem, 1, &zero);
 
-	ir_node *end_block   = get_cur_end_block();
+	ir_node *end_block   = get_irg_end_block(current_ir_graph);
 	add_immBlock_pred(end_block, return_node);
 
 	mature_immBlock(get_cur_block());
@@ -356,7 +356,7 @@ int main(int argc, char **argv)
 
 	create_return();
 
-	ir_node *end_block = get_cur_end_block();
+	ir_node *end_block = get_irg_end_block(current_ir_graph);
 	mature_immBlock(end_block);
 
 	ir_type *frame_type = get_irg_frame_type(current_ir_graph);
