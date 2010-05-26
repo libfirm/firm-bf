@@ -21,11 +21,7 @@ static void initialize_firm(void)
 {
 	be_opt_register();
 
-	firm_parameter_t params;
-	memset(&params, 0, sizeof(params));
-	params.size = sizeof(params);
-
-	ir_init(&params);
+	ir_init(NULL);
 }
 
 /**
@@ -371,11 +367,22 @@ int main(int argc, char **argv)
 	optimize_reassociation(current_ir_graph);
 	optimize_load_store(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
+	combo(current_ir_graph);
+	scalar_replacement_opt(current_ir_graph);
 	place_code(current_ir_graph);
 	optimize_reassociation(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
 	opt_jumpthreading(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
+	construct_confirms(current_ir_graph);
+	optimize_graph_df(current_ir_graph);
+	remove_confirms(current_ir_graph);
+	optimize_cf(current_ir_graph);
+	optimize_load_store(current_ir_graph);
+	optimize_graph_df(current_ir_graph);
+	combo(current_ir_graph);
+	place_code(current_ir_graph);
+	optimize_cf(current_ir_graph);
 
 	FILE *out = fopen("a.s", "w");
 	if(out == NULL) {
