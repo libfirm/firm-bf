@@ -364,8 +364,10 @@ int main(int argc, char **argv)
 
 	irg_vrfy(current_ir_graph);
 
+	do_loop_inversion(current_ir_graph);
 	optimize_reassociation(current_ir_graph);
 	optimize_load_store(current_ir_graph);
+	opt_ldst(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
 	combo(current_ir_graph);
 	scalar_replacement_opt(current_ir_graph);
@@ -379,6 +381,7 @@ int main(int argc, char **argv)
 	remove_confirms(current_ir_graph);
 	optimize_cf(current_ir_graph);
 	optimize_load_store(current_ir_graph);
+	opt_ldst(current_ir_graph);
 	optimize_graph_df(current_ir_graph);
 	combo(current_ir_graph);
 	place_code(current_ir_graph);
