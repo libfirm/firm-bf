@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <assert.h>
 
 #include <libfirm/firm.h>
-#include <libfirm/be.h>
 
 /** the main function will use 1 local variable */
 #define MAIN_LOCAL_VARS       1
@@ -21,6 +21,22 @@ static void initialize_firm(void)
 {
 	be_opt_register();
 
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
+	ir_init(NULL);
+	ir_finish();
 	ir_init(NULL);
 }
 
@@ -362,7 +378,7 @@ int main(int argc, char **argv)
 
 	irp_finalize_cons();
 
-	irg_vrfy(current_ir_graph);
+	irg_verify(current_ir_graph, VERIFY_ENFORCE_SSA);
 
 	do_loop_inversion(current_ir_graph);
 	optimize_reassociation(current_ir_graph);
@@ -393,6 +409,10 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	int res = be_parse_arg("omitfp");
+	res &= be_parse_arg("ia32-arch=core2");
+	res &= be_parse_arg("ia32-opt=core2");
+	assert(res != 0);
 	be_main(out, argv[1]);
 	fclose(out);
 
