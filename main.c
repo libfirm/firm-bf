@@ -133,9 +133,9 @@ static void increase_pointer(void)
 {
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
-	tarval  *value_one = new_tarval_from_long(1, mode_Is);
-	ir_node *one       = new_Const(value_one);
-	
+	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
+	ir_node   *one       = new_Const(value_one);
+
 	ir_node *add = new_Add(pointer_value, one, mode_P_data);
 
 	set_value(VARIABLE_NUM_POINTER, add);
@@ -145,9 +145,9 @@ static void decrease_pointer(void)
 {
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
 
-	tarval  *value_one = new_tarval_from_long(1, mode_Is);
-	ir_node *one       = new_Const(value_one);
-	
+	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
+	ir_node   *one       = new_Const(value_one);
+
 	ir_node *sub = new_Sub(pointer_value, one, mode_P_data);
 
 	set_value(VARIABLE_NUM_POINTER, sub);
@@ -163,8 +163,8 @@ static void increment_byte(void)
 	ir_node *load_result = new_Proj(load, mode_Bu, pn_Load_res);
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
 
-	tarval  *value_one = new_tarval_from_long(1, mode_Bu);
-	ir_node *one       = new_Const(value_one);
+	ir_tarval *value_one = new_tarval_from_long(1, mode_Bu);
+	ir_node   *one       = new_Const(value_one);
 
 	ir_node *add       = new_Add(load_result, one, mode_Bu);
 
@@ -184,8 +184,8 @@ static void decrement_byte(void)
 	ir_node *load_result = new_Proj(load, mode_Bu, pn_Load_res);
 	ir_node *load_mem    = new_Proj(load, mode_M, pn_Load_M);
 
-	tarval  *value_one = new_tarval_from_long(1, mode_Bu);
-	ir_node *one       = new_Const(value_one);
+	ir_tarval *value_one = new_tarval_from_long(1, mode_Bu);
+	ir_node   *one       = new_Const(value_one);
 
 	ir_node *add       = new_Sub(load_result, one, mode_Bu);
 
@@ -253,10 +253,10 @@ static void input_byte(void)
 
 static void create_return(void)
 {
-	ir_node *mem         = get_store();
-	tarval  *value_zero  = new_tarval_from_long(0, mode_Is);
-	ir_node *zero        = new_Const(value_zero);
-	ir_node *return_node = new_Return(mem, 1, &zero);
+	ir_node   *mem         = get_store();
+	ir_tarval *value_zero  = new_tarval_from_long(0, mode_Is);
+	ir_node   *zero        = new_Const(value_zero);
+	ir_node   *return_node = new_Return(mem, 1, &zero);
 
 	ir_node *end_block   = get_irg_end_block(current_ir_graph);
 	add_immBlock_pred(end_block, return_node);
@@ -286,8 +286,8 @@ static void parse_loop(void)
 
 	set_store(load_mem);
 
-	tarval  *value_zero = new_tarval_from_long(0, mode_Bu);
-	ir_node *zero       = new_Const(value_zero);
+	ir_tarval *value_zero = new_tarval_from_long(0, mode_Bu);
+	ir_node   *zero       = new_Const(value_zero);
 
 	ir_node *cmp        = new_Cmp(load_result, zero);
 	ir_node *equal      = new_Proj(cmp, mode_b, pn_Cmp_Eq);
