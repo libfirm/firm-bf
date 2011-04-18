@@ -289,8 +289,7 @@ static void parse_loop(void)
 	ir_tarval *value_zero = new_tarval_from_long(0, mode_Bu);
 	ir_node   *zero       = new_Const(value_zero);
 
-	ir_node *cmp        = new_Cmp(load_result, zero);
-	ir_node *equal      = new_Proj(cmp, mode_b, pn_Cmp_Eq);
+	ir_node *equal      = new_Cmp(load_result, zero, ir_relation_equal);
 	ir_node *cond       = new_Cond(equal);
 	ir_node *proj_true  = new_Proj(cond, mode_X, pn_Cond_true);
 	ir_node *proj_false = new_Proj(cond, mode_X, pn_Cond_false);
