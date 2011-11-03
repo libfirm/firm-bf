@@ -83,7 +83,7 @@ static ir_entity *create_putchar_entity(void)
 	ir_type *type_int = new_type_primitive(mode_Is);
 
 	ir_type *method_type = new_type_method(1, 1);
-	
+
 	set_method_res_type(method_type, 0, type_int);
 	set_method_param_type(method_type, 0, type_int);
 
@@ -101,7 +101,7 @@ static ir_entity *create_getchar_entity(void)
 	ir_type *type_int = new_type_primitive(mode_Is);
 
 	ir_type *method_type = new_type_method(0, 1);
-	
+
 	set_method_res_type(method_type, 0, type_int);
 
 	ident     *id          = new_id_from_str("getchar");
