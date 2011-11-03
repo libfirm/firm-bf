@@ -21,23 +21,7 @@ static void initialize_firm(void)
 {
 	be_opt_register();
 
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
-	ir_finish();
-	ir_init(NULL);
+	ir_init();
 }
 
 /**
