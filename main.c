@@ -329,7 +329,8 @@ int main(int argc, char **argv)
 	}
 
 	initialize_firm();
-	current_ir_graph = create_graph();
+	ir_graph *irg = create_graph();
+	set_current_ir_graph(irg);
 
 	/* "the pointer" will be constructed as variable number 0.
 	 * It is initially set to the beginning of the array
@@ -351,40 +352,41 @@ int main(int argc, char **argv)
 
 	create_return();
 
-	ir_node *end_block = get_irg_end_block(current_ir_graph);
+	ir_node *end_block = get_irg_end_block(irg);
 	mature_immBlock(end_block);
 
-	ir_type *frame_type = get_irg_frame_type(current_ir_graph);
+	ir_type *frame_type = get_irg_frame_type(irg);
 	set_type_size_bytes(frame_type, 0);
 	set_type_alignment_bytes(frame_type, 4);
 	set_type_state(frame_type, layout_fixed);
 
 	irp_finalize_cons();
 
-	irg_verify(current_ir_graph, VERIFY_ENFORCE_SSA);
+	irg_verify(irg, VERIFY_ENFORCE_SSA);
 
-	do_loop_inversion(current_ir_graph);
-	optimize_reassociation(current_ir_graph);
-	optimize_load_store(current_ir_graph);
-	opt_ldst(current_ir_graph);
-	optimize_graph_df(current_ir_graph);
-	combo(current_ir_graph);
-	scalar_replacement_opt(current_ir_graph);
-	place_code(current_ir_graph);
-	optimize_reassociation(current_ir_graph);
-	optimize_graph_df(current_ir_graph);
-	opt_jumpthreading(current_ir_graph);
-	optimize_graph_df(current_ir_graph);
-	construct_confirms(current_ir_graph);
-	optimize_graph_df(current_ir_graph);
-	remove_confirms(current_ir_graph);
-	optimize_cf(current_ir_graph);
-	optimize_load_store(current_ir_graph);
-	opt_ldst(current_ir_graph);
-	optimize_graph_df(current_ir_graph);
-	combo(current_ir_graph);
-	place_code(current_ir_graph);
-	optimize_cf(current_ir_graph);
+	/* perform a bunch of optimisations */
+	do_loop_inversion(irg);
+	optimize_reassociation(irg);
+	optimize_load_store(irg);
+	opt_ldst(irg);
+	optimize_graph_df(irg);
+	combo(irg);
+	scalar_replacement_opt(irg);
+	place_code(irg);
+	optimize_reassociation(irg);
+	optimize_graph_df(irg);
+	opt_jumpthreading(irg);
+	optimize_graph_df(irg);
+	construct_confirms(irg);
+	optimize_graph_df(irg);
+	remove_confirms(irg);
+	optimize_cf(irg);
+	optimize_load_store(irg);
+	opt_ldst(irg);
+	optimize_graph_df(irg);
+	combo(irg);
+	place_code(irg);
+	optimize_cf(irg);
 
 	FILE *out = fopen("a.s", "w");
 	if(out == NULL) {
