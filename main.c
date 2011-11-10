@@ -19,8 +19,6 @@ static FILE *input;
 
 static void initialize_firm(void)
 {
-	be_opt_register();
-
 	ir_init();
 }
 
@@ -368,7 +366,6 @@ int main(int argc, char **argv)
 	do_loop_inversion(irg);
 	optimize_reassociation(irg);
 	optimize_load_store(irg);
-	opt_ldst(irg);
 	optimize_graph_df(irg);
 	combo(irg);
 	scalar_replacement_opt(irg);
@@ -382,7 +379,6 @@ int main(int argc, char **argv)
 	remove_confirms(irg);
 	optimize_cf(irg);
 	optimize_load_store(irg);
-	opt_ldst(irg);
 	optimize_graph_df(irg);
 	combo(irg);
 	place_code(irg);
