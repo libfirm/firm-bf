@@ -13,7 +13,7 @@
 /** the variable number of "the pointer" (the position in the data) */
 #define VARIABLE_NUM_POINTER  0
 /** commandline used for linking */
-#define LINK_COMMAND          "gcc a.s"
+#define LINK_COMMAND          "gcc -m32 a.s"
 
 static FILE *input;
 
@@ -391,8 +391,8 @@ int main(int argc, char **argv)
 	}
 
 	int res = be_parse_arg("omitfp");
-	res &= be_parse_arg("ia32-arch=core2");
-	res &= be_parse_arg("ia32-opt=core2");
+	res &= be_parse_arg("ia32-arch=native");
+	res &= be_parse_arg("ia32-opt=native");
 	assert(res != 0);
 	be_main(out, argv[1]);
 	fclose(out);
