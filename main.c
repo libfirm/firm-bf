@@ -350,9 +350,6 @@ int main(int argc, char **argv)
 
 	create_return();
 
-	ir_node *end_block = get_irg_end_block(irg);
-	mature_immBlock(end_block);
-
 	ir_type *frame_type = get_irg_frame_type(irg);
 	set_type_size_bytes(frame_type, 0);
 	set_type_alignment_bytes(frame_type, 4);
