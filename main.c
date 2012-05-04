@@ -88,7 +88,6 @@ static ir_entity *create_putchar_entity(void)
 	ident     *id          = new_id_from_str("putchar");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
-	set_entity_visibility(entity, ir_visibility_external);
 	set_entity_ld_ident(entity, id);
 
 	return entity;
@@ -105,7 +104,6 @@ static ir_entity *create_getchar_entity(void)
 	ident     *id          = new_id_from_str("getchar");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
-	set_entity_visibility(entity, ir_visibility_external);
 	set_entity_ld_ident(entity, id);
 
 	return entity;
