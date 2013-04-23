@@ -387,7 +387,6 @@ int main(int argc, char **argv)
 
 	int res = be_parse_arg("omitfp");
 	res &= be_parse_arg("ia32-arch=native");
-	res &= be_parse_arg("ia32-opt=native");
 	assert(res != 0);
 	be_main(out, argv[1]);
 	fclose(out);
