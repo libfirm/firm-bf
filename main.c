@@ -355,7 +355,7 @@ int main(int argc, char **argv)
 
 	irp_finalize_cons();
 
-	irg_verify(irg, VERIFY_ENFORCE_SSA);
+	irg_assert_verify(irg);
 
 	/* perform a bunch of optimisations */
 	do_loop_inversion(irg);
