@@ -181,8 +181,7 @@ static void output_byte(void)
 	static ir_entity *entity  = NULL;
 	if(putchar == NULL) {
 		entity  = create_putchar_entity();
-		putchar = new_SymConst(mode_P, (union symconst_symbol) entity,
-		                       symconst_addr_ent);
+		putchar = new_Address(entity);
 	}
 
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
@@ -208,8 +207,7 @@ static void input_byte(void)
 	static ir_entity *entity  = NULL;
 	if(getchar == NULL) {
 		entity  = create_getchar_entity();
-		getchar = new_SymConst(mode_P, (union symconst_symbol) entity,
-		                       symconst_addr_ent);
+		getchar = new_Address(entity);
 	}
 
 	ir_node *mem = get_store();
@@ -332,8 +330,7 @@ int main(int argc, char **argv)
 	 * It is initially set to the beginning of the array
 	 */
 	ir_entity *field       = create_field();
-	ir_node   *field_start = new_SymConst(mode_P, (union symconst_symbol) field,
-	                                      symconst_addr_ent);
+	ir_node   *field_start = new_Address(field);
 	set_value(VARIABLE_NUM_POINTER, field_start);
 
 	while(1) {
