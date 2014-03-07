@@ -57,12 +57,9 @@ static ir_entity *create_field(void)
 {
 	ir_type *byte_type = new_type_primitive(mode_Bu);
 
-	/* create a 1-dimensional array of type byte_type. Then set bounds to
-	 * [0-DATA_SIZE[
-	 */
-	ir_type *array_type    = new_type_array(1, byte_type);
-	set_array_bounds_int(array_type, 0, 0, DATA_SIZE);
-
+	/* create a 1-dimensional array of type byte_type with size DATA_SIZE */
+	ir_type *array_type = new_type_array(byte_type);
+	set_array_size_int(array_type, DATA_SIZE);
 	set_type_size_bytes(array_type, DATA_SIZE);
 	set_type_state(array_type, layout_fixed);
 
