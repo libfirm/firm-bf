@@ -108,31 +108,31 @@ static ir_entity *create_getchar_entity(void)
 
 static void increase_pointer(void)
 {
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
 	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
 	ir_node   *one       = new_Const(value_one);
 
-	ir_node *add = new_Add(pointer_value, one, mode_P_data);
+	ir_node *add = new_Add(pointer_value, one, mode_P);
 
 	set_value(VARIABLE_NUM_POINTER, add);
 }
 
 static void decrease_pointer(void)
 {
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
 	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
 	ir_node   *one       = new_Const(value_one);
 
-	ir_node *sub = new_Sub(pointer_value, one, mode_P_data);
+	ir_node *sub = new_Sub(pointer_value, one, mode_P);
 
 	set_value(VARIABLE_NUM_POINTER, sub);
 }
 
 static void increment_byte(void)
 {
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
 	ir_node *mem  = get_store();
 	ir_node *load = new_Load(mem, pointer_value, mode_Bu, cons_none);
@@ -153,7 +153,7 @@ static void increment_byte(void)
 
 static void decrement_byte(void)
 {
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
 	ir_node *mem  = get_store();
 	ir_node *load = new_Load(mem, pointer_value, mode_Bu, cons_none);
@@ -181,7 +181,7 @@ static void output_byte(void)
 		putchar = new_Address(entity);
 	}
 
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 	ir_node *mem           = get_store();
 
 	ir_node *load        = new_Load(mem, pointer_value, mode_Bu, cons_none);
@@ -217,7 +217,7 @@ static void input_byte(void)
 	ir_node *call_results = new_Proj(call, mode_T, pn_Call_T_result);
 	ir_node *call_result  = new_Proj(call_results, mode_Is, 0);
 
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 	ir_node *convert       = new_Conv(call_result, mode_Is);
 
 	ir_node *store     = new_Store(call_mem, pointer_value, convert, cons_none);
@@ -251,7 +251,7 @@ static void parse_loop(void)
 	add_immBlock_pred(loop_header_block, jump);
 	set_cur_block(loop_header_block);
 
-	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P_data);
+	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
 	ir_node *mem  = get_store();
 	ir_node *load = new_Load(mem, pointer_value, mode_Bu, cons_none);
