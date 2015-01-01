@@ -346,12 +346,7 @@ int main(int argc, char **argv)
 
 	create_return();
 
-	ir_type *frame_type = get_irg_frame_type(irg);
-	set_type_size_bytes(frame_type, 0);
-	set_type_alignment_bytes(frame_type, 4);
-	set_type_state(frame_type, layout_fixed);
-
-	irp_finalize_cons();
+	irg_finalize_cons(irg);
 
 	irg_assert_verify(irg);
 
