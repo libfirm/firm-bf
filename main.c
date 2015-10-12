@@ -69,9 +69,11 @@ static ir_entity *create_field(void)
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, array_type);
 
+	ir_initializer_t *null_init = get_initializer_null();
+	set_entity_initializer(entity, null_init);
+
 	/* only the current compilation unit needs to see the data array */
 	set_entity_visibility(entity, ir_visibility_local);
-
 	return entity;
 }
 
