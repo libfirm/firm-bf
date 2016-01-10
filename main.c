@@ -22,6 +22,10 @@ static ir_type *type_Bu;
 static void initialize_firm(void)
 {
 	ir_init();
+	/* Setup backend */
+	int res = be_parse_arg("omitfp");
+	res &= be_parse_arg("ia32-arch=native");
+	assert(res != 0);
 }
 
 /**
@@ -380,9 +384,6 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	int res = be_parse_arg("omitfp");
-	res &= be_parse_arg("ia32-arch=native");
-	assert(res != 0);
 	be_main(out, argv[1]);
 	fclose(out);
 
