@@ -66,7 +66,7 @@ static ir_entity *create_field(void)
 	/* create a 1-dimensional array of type byte_type with size DATA_SIZE */
 	ir_type *array_type = new_type_array(byte_type);
 	set_array_size_int(array_type, DATA_SIZE);
-	set_type_size_bytes(array_type, DATA_SIZE);
+	set_type_size(array_type, DATA_SIZE);
 	set_type_state(array_type, layout_fixed);
 
 	ident     *id          = new_id_from_str("data");
