@@ -13,7 +13,7 @@
 /** the variable number of "the pointer" (the position in the data) */
 #define VARIABLE_NUM_POINTER  0
 /** commandline used for linking */
-#define LINK_COMMAND          "gcc -m32 a.s"
+#define LINK_COMMAND          "cc -m32 a.s"
 
 static FILE *input;
 
