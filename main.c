@@ -119,7 +119,7 @@ static void increase_pointer(void)
 	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
 	ir_node   *one       = new_Const(value_one);
 
-	ir_node *add = new_Add(pointer_value, one, mode_P);
+	ir_node *add = new_Add(pointer_value, one);
 
 	set_value(VARIABLE_NUM_POINTER, add);
 }
@@ -131,7 +131,7 @@ static void decrease_pointer(void)
 	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
 	ir_node   *one       = new_Const(value_one);
 
-	ir_node *sub = new_Sub(pointer_value, one, mode_P);
+	ir_node *sub = new_Sub(pointer_value, one);
 
 	set_value(VARIABLE_NUM_POINTER, sub);
 }
@@ -149,7 +149,7 @@ static void increment_byte(void)
 	ir_tarval *value_one = new_tarval_from_long(1, mode_Bu);
 	ir_node   *one       = new_Const(value_one);
 
-	ir_node *add       = new_Add(load_result, one, mode_Bu);
+	ir_node *add       = new_Add(load_result, one);
 
 	ir_node *store     = new_Store(load_mem, pointer_value, add, type_Bu, cons_none);
 	ir_node *store_mem = new_Proj(store, mode_M, pn_Store_M);
@@ -170,7 +170,7 @@ static void decrement_byte(void)
 	ir_tarval *value_one = new_tarval_from_long(1, mode_Bu);
 	ir_node   *one       = new_Const(value_one);
 
-	ir_node *add       = new_Sub(load_result, one, mode_Bu);
+	ir_node *add       = new_Sub(load_result, one);
 
 	ir_node *store     = new_Store(load_mem, pointer_value, add, type_Bu, cons_none);
 	ir_node *store_mem = new_Proj(store, mode_M, pn_Store_M);
