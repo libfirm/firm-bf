@@ -37,7 +37,7 @@ static ir_graph *create_graph(void)
 	/* the identifier for the "main" function */
 	/* create a new method type for the main function, no parameters,
 	 * one result */
-	ir_type *method_type = new_type_method(0, 1, false);
+	ir_type *method_type = new_type_method(0, 1, false, cc_cdecl_set, mtp_no_property);
 
 	ir_type *type_int = new_type_primitive(mode_Is);
 	set_method_res_type(method_type, 0, type_int);
@@ -83,7 +83,7 @@ static ir_entity *create_putchar_entity(void)
 {
 	ir_type *type_int = new_type_primitive(mode_Is);
 
-	ir_type *method_type = new_type_method(1, 1, false);
+	ir_type *method_type = new_type_method(1, 1, false, cc_cdecl_set, mtp_no_property);
 
 	set_method_res_type(method_type, 0, type_int);
 	set_method_param_type(method_type, 0, type_int);
@@ -100,7 +100,7 @@ static ir_entity *create_getchar_entity(void)
 {
 	ir_type *type_int = new_type_primitive(mode_Is);
 
-	ir_type *method_type = new_type_method(0, 1, false);
+	ir_type *method_type = new_type_method(0, 1, false, cc_cdecl_set, mtp_no_property);
 
 	set_method_res_type(method_type, 0, type_int);
 
