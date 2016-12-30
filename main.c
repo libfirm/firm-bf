@@ -27,6 +27,7 @@ static void initialize_firm(void)
 	int res = be_parse_arg("omitfp");
 	res &= be_parse_arg("ia32-arch=native");
 	assert(res != 0);
+	be_initialize();
 }
 
 /**
