@@ -14,7 +14,7 @@
 /** the variable number of "the pointer" (the position in the data) */
 #define VARIABLE_NUM_POINTER  0
 /** commandline used for linking */
-#define LINK_COMMAND          "cc -m32 a.s"
+#define LINK_COMMAND          "cc a.s"
 
 static FILE *input;
 
@@ -23,11 +23,6 @@ static ir_type *type_Bu;
 static void initialize_firm(void)
 {
 	ir_init();
-	/* Setup backend */
-	int res = be_parse_arg("omitfp");
-	res &= be_parse_arg("ia32-arch=native");
-	assert(res != 0);
-	be_initialize();
 }
 
 /**
@@ -44,7 +39,7 @@ static ir_graph *create_graph(void)
 	set_method_res_type(method_type, 0, type_int);
 
 	/* create an entity for the method in the global namespace */
-	ident     *id          = new_id_from_str("main");
+	ident     *id          = ir_platform_mangle_global("main");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
 
@@ -68,7 +63,7 @@ static ir_entity *create_field(void)
 	/* create a 1-dimensional array of type byte_type with size DATA_SIZE */
 	ir_type *array_type = new_type_array(byte_type, DATA_SIZE);
 
-	ident     *id          = new_id_from_str("data");
+	ident     *id          = ir_platform_mangle_global("data");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, array_type);
 
@@ -89,7 +84,7 @@ static ir_entity *create_putchar_entity(void)
 	set_method_res_type(method_type, 0, type_int);
 	set_method_param_type(method_type, 0, type_int);
 
-	ident     *id          = new_id_from_str("putchar");
+	ident     *id          = ir_platform_mangle_global("putchar");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
 	set_entity_ld_ident(entity, id);
@@ -105,7 +100,7 @@ static ir_entity *create_getchar_entity(void)
 
 	set_method_res_type(method_type, 0, type_int);
 
-	ident     *id          = new_id_from_str("getchar");
+	ident     *id          = ir_platform_mangle_global("getchar");
 	ir_type   *global_type = get_glob_type();
 	ir_entity *entity      = new_entity(global_type, id, method_type);
 	set_entity_ld_ident(entity, id);
@@ -117,8 +112,9 @@ static void increase_pointer(void)
 {
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
-	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
-	ir_node   *one       = new_Const(value_one);
+	ir_mode   *offset_mode = get_reference_offset_mode(mode_P);
+	ir_tarval *value_one   = new_tarval_from_long(1, offset_mode);
+	ir_node   *one         = new_Const(value_one);
 
 	ir_node *add = new_Add(pointer_value, one);
 
@@ -129,8 +125,9 @@ static void decrease_pointer(void)
 {
 	ir_node *pointer_value = get_value(VARIABLE_NUM_POINTER, mode_P);
 
-	ir_tarval *value_one = new_tarval_from_long(1, mode_Is);
-	ir_node   *one       = new_Const(value_one);
+	ir_mode   *offset_mode = get_reference_offset_mode(mode_P);
+	ir_tarval *value_one   = new_tarval_from_long(1, offset_mode);
+	ir_node   *one         = new_Const(value_one);
 
 	ir_node *sub = new_Sub(pointer_value, one);
 
