@@ -15,6 +15,7 @@
 #define VARIABLE_NUM_POINTER  0
 /** commandline used for linking */
 #define LINK_COMMAND          "cc a.s"
+#define LINK_COMMAND_NOPIE    "cc a.s -no-pie 2> /dev/null"
 
 static FILE *input;
 
@@ -383,7 +384,10 @@ int main(int argc, char **argv)
 	be_main(out, argv[1]);
 	fclose(out);
 
-	system(LINK_COMMAND);
+	int err = system(LINK_COMMAND_NOPIE);
+	if (err != EXIT_SUCCESS) {
+		err = system(LINK_COMMAND);
+	}
 
-	return 0;
+	return err;
 }
